@@ -11,7 +11,7 @@ export interface AddressAttrs {
 	type: number; // home or office
 }
 
-export interface AddressDoc {
+export interface AddressDoc extends mongoose.Document {
 	id: mongoose.Types.ObjectId;
 	user_id: mongoose.Types.ObjectId;
 	name: string;
@@ -21,10 +21,8 @@ export interface AddressDoc {
 	district: string;
 	street: string;
 	type: number;
-}
-
-interface AddressModel extends mongoose.Model<AddressDoc> {
-	build(attrs: AddressAttrs): AddressDoc;
+	created_at: Date;
+	updated_at: Date;
 }
 
 export const addressSchema = new mongoose.Schema<AddressDoc>(
@@ -70,6 +68,10 @@ export const addressSchema = new mongoose.Schema<AddressDoc>(
 		},
 	},
 );
+
+interface AddressModel extends mongoose.Model<AddressDoc> {
+	build(attrs: AddressAttrs): AddressDoc;
+}
 
 const Address = mongoose.model<AddressDoc, AddressModel>(
 	'Address',

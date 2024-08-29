@@ -29,10 +29,8 @@ interface UserDoc extends mongoose.Document {
 	status?: number;
 	type?: number;
 	address_default?: mongoose.Types.ObjectId;
-}
-
-interface UserModel extends mongoose.Model<UserDoc> {
-	build(attrs: UserAttrs): UserDoc;
+	created_at: Date;
+	updated_at: Date;
 }
 
 const userSchema = new mongoose.Schema<UserDoc>(
@@ -84,7 +82,6 @@ const userSchema = new mongoose.Schema<UserDoc>(
 			required: true,
 			default: 0,
 		},
-
 		address_default: {
 			type: mongoose.Types.ObjectId,
 			required: false,
@@ -98,6 +95,10 @@ const userSchema = new mongoose.Schema<UserDoc>(
 		collection: 'users',
 	},
 );
+
+interface UserModel extends mongoose.Model<UserDoc> {
+	build(attrs: UserAttrs): UserDoc;
+}
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 

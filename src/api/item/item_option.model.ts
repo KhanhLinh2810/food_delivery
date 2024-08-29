@@ -21,9 +21,11 @@ export const itemOptionSchema = new mongoose.Schema<ItemOptionDoc>({
 	price: {
 		type: Number,
 		required: true,
+		default: 0,
 	},
 	status: {
 		type: Number,
 		required: true,
+		default: 0,
 	},
 });

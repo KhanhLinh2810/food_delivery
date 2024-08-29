@@ -15,7 +15,7 @@ export interface UserAttrs {
 	address_default?: mongoose.Types.ObjectId;
 }
 
-interface UserDoc extends mongoose.Document {
+export interface UserDoc extends mongoose.Document {
 	id: mongoose.Types.ObjectId;
 	phone: string;
 	password: string;

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { CustomError } from '../common/errors/custom-error';
 import { RequestValidationError } from '../common/errors/request-validation-error';
-import { resErr } from '../common/utilities/response.util';
+import { resErr } from '../utilities/response.util';
 
 export const ErrorHandler = (
 	err: Error,

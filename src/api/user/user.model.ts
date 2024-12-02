@@ -8,7 +8,7 @@ export interface UserAttrs {
 	user_name?: string;
 	first_name?: string;
 	last_name?: string;
-	avatar_string?: string;
+	avatar_url?: string;
 	citizen_id?: string;
 	status?: number;
 	type?: number;
@@ -24,7 +24,7 @@ export interface UserDoc extends mongoose.Document {
 	user_name?: string;
 	first_name?: string;
 	last_name?: string;
-	avatar_string?: string;
+	avatar_url?: string;
 	citizen_id?: string;
 	status?: number;
 	type?: number;
@@ -64,7 +64,7 @@ const userSchema = new mongoose.Schema<UserDoc>(
 			type: String,
 			required: false,
 		},
-		avatar_string: {
+		avatar_url: {
 			type: String,
 			required: false,
 		},

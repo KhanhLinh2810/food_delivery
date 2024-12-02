@@ -8,7 +8,7 @@ export class UserDTO {
 	user_name?: string;
 	first_name?: string;
 	last_name?: string;
-	avatar_string?: string;
+	avatar_url?: string;
 	citizen_id?: string;
 	status?: number;
 	type?: number;
@@ -22,7 +22,7 @@ export class UserDTO {
 		this.user_name = user.user_name;
 		this.first_name = user.first_name;
 		this.last_name = user.last_name;
-		this.avatar_string = user.avatar_string;
+		this.avatar_url = user.avatar_url;
 		this.citizen_id = user.citizen_id;
 		this.status = user.status;
 		this.type = user.type;

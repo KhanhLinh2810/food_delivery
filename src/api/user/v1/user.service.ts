@@ -20,6 +20,7 @@ export async function getMany(
 	paging: IPagination,
 ): Promise<{ count: number; rows: UserDoc[] }> {
 	const data = await User.aggregate([
+		{ $match: query },
 		{
 			$addFields: {
 				name: [
@@ -38,9 +39,6 @@ export async function getMany(
 					},
 				],
 			},
-		},
-		{
-			$match: query,
 		},
 		{
 			$facet: {

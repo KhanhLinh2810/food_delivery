@@ -11,7 +11,6 @@ export interface OwnerRestaurant {
 }
 
 export interface RestaurantAttrs {
-	code: string; // mã shop
 	name: string;
 	house_number: string;
 	city: string;
@@ -19,7 +18,8 @@ export interface RestaurantAttrs {
 	street: string;
 	owner: OwnerRestaurant;
 	description?: string;
-	status?: number;
+	phone: string;
+	password?: string;
 }
 
 export interface RestaurantDoc extends mongoose.Document {
@@ -33,6 +33,8 @@ export interface RestaurantDoc extends mongoose.Document {
 	description?: string; // gioi thieu cua hang
 	status: number; // mo cua hay dong cua
 	score: number; // float, 0-100
+	phone: string;
+	password?: string;
 	created_at: Date;
 	updated_at: Date;
 }
@@ -91,6 +93,14 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 			required: true,
 			default: 70,
 		},
+		phone: {
+			type: String,
+			required: true,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
 	},
 	{
 		timestamps: {
@@ -100,6 +110,13 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 		collection: 'restaurants',
 	},
 );
+
+restaurantSchema.set('toJSON', {
+	transform: (doc, ret) => {
+		delete ret.password;
+		return ret;
+	},
+});
 
 interface RestaurantModel extends mongoose.Model<RestaurantDoc> {
 	build(attrs: RestaurantAttrs): RestaurantDoc;

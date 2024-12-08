@@ -18,7 +18,7 @@ export interface UserAttrs {
 export interface UserDoc extends mongoose.Document {
 	id: mongoose.Types.ObjectId;
 	phone: string;
-	password: string;
+	password?: string;
 	score: number; // float
 	email?: string;
 	user_name?: string;
@@ -95,6 +95,13 @@ const userSchema = new mongoose.Schema<UserDoc>(
 		collection: 'users',
 	},
 );
+
+userSchema.set('toJSON', {
+	transform: (doc, ret) => {
+		delete ret.password;
+		return ret;
+	},
+});
 
 interface UserModel extends mongoose.Model<UserDoc> {
 	build(attrs: UserAttrs): UserDoc;

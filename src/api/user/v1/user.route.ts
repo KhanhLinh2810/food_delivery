@@ -16,12 +16,12 @@ import { IUserFilter } from '../../../interface/user.interface';
 export class UserRouter {
 	private UserController = new UserController();
 
-	init(route: Router) {
+	init(router: Router) {
 		const userRouter = Router();
 
-		route.use('/', validateBodyRed(CreateUserRequest), this.create);
+		router.use('/', validateBodyRed(CreateUserRequest), this.create);
 
-		route.use('/user', userRouter);
+		router.use('/user', userRouter);
 	}
 	// create
 	async create(req: Request, res: Response, next: NextFunction) {

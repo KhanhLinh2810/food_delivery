@@ -3,7 +3,7 @@ import {
 	Restaurant,
 	RestaurantAttrs,
 	restaurantSchema,
-} from '../restaurent/restaurent.model';
+} from '../restaurent/restaurant.model';
 
 export interface ComboAttrs {
 	name: string;

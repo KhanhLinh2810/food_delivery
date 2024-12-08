@@ -19,7 +19,11 @@ export class UserRouter {
 	init(router: Router) {
 		const userRouter = Router();
 
-		router.use('/', validateBodyRed(CreateUserRequest), this.create);
+		userRouter.post('/', validateBodyRed(CreateUserRequest), this.create);
+		userRouter.get('/', this.index);
+		userRouter.get('/:id', this.detail);
+		userRouter.put('/:id', this.update);
+		userRouter.delete('/:id', this.delete);
 
 		router.use('/user', userRouter);
 	}
@@ -65,7 +69,7 @@ export class UserRouter {
 
 	async detail(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = toSafeInteger(req.params.id);
+			const id = req.params.id;
 			const user = await this.UserController.getOne(id);
 			return res.status(200).json(resOk(user));
 		} catch (error) {
@@ -76,7 +80,7 @@ export class UserRouter {
 	//update
 	async update(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = toSafeInteger(req.params.id);
+			const id = req.params.id;
 			const data_body: UserAttrs = req.body;
 			const user = await this.UserController.update(id, data_body);
 			return res.status(200).json(resOk(user));
@@ -88,7 +92,7 @@ export class UserRouter {
 	// delete
 	async delete(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = toSafeInteger(req.params.id);
+			const id = req.params.id;
 			const user = await this.UserController.destroy(id);
 			return res.status(200).json(resOk(user));
 		} catch (error) {

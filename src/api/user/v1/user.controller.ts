@@ -19,7 +19,7 @@ export class UserController {
 		return new UserDTO(user);
 	}
 
-	async getOne(id: number): Promise<UserDTO> {
+	async getOne(id: string): Promise<UserDTO> {
 		const user = await userService.getOne({ id: id });
 		if (!user) {
 			throw new NotFoundError('user_not_found');
@@ -35,7 +35,7 @@ export class UserController {
 		return await userService.getMany(query, paging);
 	}
 
-	async update(id: number, data_body: UserAttrs): Promise<UserDTO> {
+	async update(id: string, data_body: UserAttrs): Promise<UserDTO> {
 		const user = await userService.getOne({ id: id });
 		if (!user) {
 			throw new NotFoundError('user_not_found');
@@ -49,12 +49,16 @@ export class UserController {
 				throw new BadRequestError('phone_exist');
 			}
 		}
-		data_body.password = await EncUtil.createHash(data_body.password);
+		user.set(data_body);
+		if (data_body.password)
+			user.set({
+				password: await EncUtil.createHash(data_body.password),
+			});
 		await user.save();
 		return new UserDTO(user);
 	}
 
-	async destroy(id: number) {
+	async destroy(id: string) {
 		const user = await userService.deleteById(id);
 		if (!user) {
 			throw new NotFoundError('user_not_found');

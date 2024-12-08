@@ -4,12 +4,12 @@ import {
 	Restaurant,
 	RestaurantAttrs,
 	RestaurantDoc,
-} from '../restaurent.model';
+} from '../restaurant.model';
 
 async function create(data_body: RestaurantAttrs): Promise<RestaurantDoc> {
-	const user = Restaurant.build(data_body);
-	await user.save();
-	return user;
+	const restaurant = Restaurant.build(data_body);
+	await restaurant.save();
+	return restaurant;
 }
 
 async function getOne(condition: any): Promise<RestaurantDoc | null> {
@@ -73,7 +73,7 @@ async function getMany(
 	};
 }
 
-async function deleteById(id: number): Promise<RestaurantDoc | null> {
+async function deleteById(id: string): Promise<RestaurantDoc | null> {
 	return await Restaurant.findByIdAndDelete(id);
 }
 

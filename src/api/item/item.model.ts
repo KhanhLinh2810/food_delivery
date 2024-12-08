@@ -6,7 +6,7 @@ import {
 } from './item_option.model';
 
 export interface ItemAttrs {
-	shop_id: mongoose.Types.ObjectId;
+	restaurant_id: mongoose.Types.ObjectId;
 	name: string;
 	price: number;
 	description?: string;
@@ -19,7 +19,7 @@ export interface ItemAttrs {
 
 export interface ItemDoc extends mongoose.Document {
 	id: mongoose.Types.ObjectId;
-	shop_id: mongoose.Types.ObjectId;
+	restaurant_id: mongoose.Types.ObjectId;
 	name: string;
 	price: number;
 	description?: string;
@@ -37,7 +37,7 @@ export interface ItemDoc extends mongoose.Document {
 
 export const itemSchema = new mongoose.Schema<ItemDoc>(
 	{
-		shop_id: {
+		restaurant_id: {
 			type: Schema.Types.ObjectId,
 			required: true,
 		},

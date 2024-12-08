@@ -27,6 +27,7 @@ export interface OrderDoc extends mongoose.Document {
 	user_info: AddressDoc;
 	order_item: OrderItemDoc[];
 	ship_cost: number;
+	total_amount: number;
 }
 
 const orderSchema = new mongoose.Schema<OrderDoc>(
@@ -51,6 +52,11 @@ const orderSchema = new mongoose.Schema<OrderDoc>(
 			},
 		],
 		ship_cost: {
+			type: Number,
+			required: true,
+			default: 0,
+		},
+		total_amount: {
 			type: Number,
 			required: true,
 			default: 0,

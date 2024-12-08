@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { RestaurantController } from './restaurant.controller';
-import { RestaurantAttrs } from '../restaurent.model';
+import { RestaurantAttrs } from '../restaurant.model';
 import { resOk } from '../../../utilities/response.util';
 import {
 	parseSafeInterger,
@@ -18,7 +18,11 @@ export class RestaurantRouter {
 	init(router: Router) {
 		const restaurantRouter = Router();
 
-		router.use('/', this.create);
+		restaurantRouter.post('/', this.create);
+		restaurantRouter.get('/', this.index);
+		restaurantRouter.get('/:id', this.detail);
+		restaurantRouter.put('/:id', this.update);
+		restaurantRouter.delete('/:id', this.delete);
 
 		router.use(
 			'/restaurant',
@@ -68,7 +72,7 @@ export class RestaurantRouter {
 
 	async detail(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = toSafeInteger(req.params.id);
+			const id = req.params.id;
 			const restaurant = await this.controller.getOne(id);
 			return res.status(200).json(resOk(restaurant));
 		} catch (error) {
@@ -79,7 +83,7 @@ export class RestaurantRouter {
 	// update
 	async update(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = toSafeInteger(req.params.id);
+			const id = req.params.id;
 			const data_body: RestaurantAttrs = req.body;
 			const restaurant = await this.controller.update(id, data_body);
 			return res.status(200).json(resOk(restaurant));
@@ -91,7 +95,7 @@ export class RestaurantRouter {
 	// delete
 	async delete(req: Request, res: Response, next: NextFunction) {
 		try {
-			const id = toSafeInteger(req.params.id);
+			const id = req.params.id;
 			const restaurant = await this.controller.destroy(id);
 			return res.status(200).json(resOk(restaurant));
 		} catch (error) {

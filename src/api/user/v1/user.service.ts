@@ -76,7 +76,7 @@ export async function update(
 	return user;
 }
 
-export async function deleteById(id: number): Promise<UserDoc | null> {
+export async function deleteById(id: string): Promise<UserDoc | null> {
 	return await User.findByIdAndDelete(id);
 }
 

@@ -151,3 +151,11 @@ export async function buildQuery(filter: IUserFilter) {
 	}
 	return query;
 }
+
+export const UserService = {
+	create,
+	getOne,
+	getMany,
+	update,
+	deleteById,
+};

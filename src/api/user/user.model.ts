@@ -18,7 +18,7 @@ export interface UserAttrs {
 export interface UserDoc extends mongoose.Document {
 	id: mongoose.Types.ObjectId;
 	phone: string;
-	password?: string;
+	password: string;
 	score: number; // float
 	email?: string;
 	user_name?: string;

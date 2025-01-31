@@ -12,6 +12,10 @@ async function getOne(condition: any): Promise<ItemDoc | null> {
 	});
 }
 
+async function getMany() {
+	return await Item.find();
+}
+
 async function deleteById(id: string) {
 	return await Item.findByIdAndDelete(id);
 }
@@ -19,5 +23,6 @@ async function deleteById(id: string) {
 export const ItemService = {
 	create,
 	getOne,
+	getMany,
 	deleteById,
 };

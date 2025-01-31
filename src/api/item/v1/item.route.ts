@@ -6,7 +6,7 @@ import { resOk } from '../../../utilities/response.util';
 export class ItemRouter {
 	private controller = new ItemControler();
 
-	init(router: Router) {
+	public init(router: Router) {
 		const ItemRouter = Router();
 
 		ItemRouter.post('/', this.create);
@@ -31,6 +31,8 @@ export class ItemRouter {
 	// read
 	async index(req: Request, res: Response, next: NextFunction) {
 		try {
+			const data = await this.controller.getMany();
+			return res.status(200).json(resOk(data));
 		} catch (error) {
 			next(error);
 		}

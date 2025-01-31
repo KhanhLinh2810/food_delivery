@@ -9,6 +9,7 @@ export const ErrorHandler = (
 	res: Response,
 	next: NextFunction,
 ) => {
+	console.log(err);
 	if (err instanceof CustomError) {
 		if (err instanceof RequestValidationError) {
 			const errors = err.serializeErrors();

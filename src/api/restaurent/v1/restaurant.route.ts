@@ -2,16 +2,13 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { RestaurantController } from './restaurant.controller';
 import { RestaurantAttrs } from '../restaurant.model';
 import { resOk } from '../../../utilities/response.util';
-import {
-	parseSafeInterger,
-	toSafeInteger,
-	toSafeString,
-} from '../../../utilities/data.utils';
+import { parseSafeInterger, toSafeString } from '../../../utilities/data.utils';
 import { validateBodyRed } from '../../../middlewares/validation.middleware';
-import { CreateRestaurantRequest } from '../request/create_restaurant';
 import { IRestaurantFilter } from '../../../interface/restaurant.interface';
 import { paginate } from '../../../utilities/paginate.util';
 import { upload } from '../../../utilities/media.utils';
+import { CreateRestaurantRequest } from '../request/create_restaurant.request';
+import { generateRandomString } from '../../../utilities/string.util';
 
 export class RestaurantRouter {
 	private controller = new RestaurantController();
@@ -19,12 +16,15 @@ export class RestaurantRouter {
 	init(router: Router) {
 		const restaurantRouter = Router();
 
+		// site owner
 		restaurantRouter.post(
 			'/',
 			upload.single('avatar'),
 			validateBodyRed(CreateRestaurantRequest),
 			this.create.bind(this),
 		);
+
+		// site admin
 		restaurantRouter.get('/', this.index.bind(this));
 		restaurantRouter.get('/:id', this.detail.bind(this));
 		restaurantRouter.put('/:id', this.update.bind(this));
@@ -36,6 +36,7 @@ export class RestaurantRouter {
 	async create(req: Request, res: Response, next: NextFunction) {
 		try {
 			const data_body: RestaurantAttrs = req.body;
+			data_body.password = generateRandomString(8);
 			const restaurant = await this.controller.create(data_body);
 			return res.status(200).json(resOk(restaurant));
 		} catch (error) {

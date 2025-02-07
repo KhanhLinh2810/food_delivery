@@ -21,3 +21,10 @@ export const genCode = async (prefix = 'HW', numLen = 8): Promise<string> => {
 	const nextSq = await CounterService.getNextSequence(prefix);
 	return prefix + nextSq.toString().padStart(numLen, '0');
 };
+
+export const generateRandomString = (length = 12) =>
+	Array.from({ length }, () =>
+		'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.charAt(
+			Math.floor(Math.random() * 62),
+		),
+	).join('');

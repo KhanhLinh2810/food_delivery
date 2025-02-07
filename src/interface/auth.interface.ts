@@ -23,3 +23,10 @@ declare global {
 		}
 	}
 }
+
+export interface IGenToken {
+	access_token_expired_in: string;
+	access_token_secret: string;
+	refresh_token_expired_in: string;
+	refresh_token_secret: string;
+}

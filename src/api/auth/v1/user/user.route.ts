@@ -1,34 +1,30 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { AuthController } from './auth.controller';
-import { UserAttrs } from '../../user/user.model';
-import { resOk } from '../../../utilities/response.util';
-import { ILoginInterface } from '../../../interface/auth.interface';
-import { validateBodyRed } from '../../../middlewares/validation.middleware';
-import { RegisterRequest } from './request/register.request';
-import { LoginRequest } from './request/login.request';
+import { validateBodyRed } from '../../../../middlewares/validation.middleware';
+import { RegisterRequest } from '../../request/register.request';
+import { LoginRequest } from '../../request/login.request';
+import { UserAttrs } from '../../../user/user.model';
+import { resOk } from '../../../../utilities/response.util';
+import { ILoginInterface } from '../../../../interface/auth.interface';
+import { UserController } from './user.controller';
 
-export class AuthRouter {
-	private controller: AuthController;
-
-	constructor() {
-		this.controller = new AuthController();
-	}
+export class UserRouter {
+	private controller = new UserController();
 
 	public init(router: Router): void {
-		const AuthRouter = Router();
+		const UserRouter = Router();
 
-		AuthRouter.post(
+		UserRouter.post(
 			'/register',
 			validateBodyRed(RegisterRequest),
 			this.register.bind(this),
 		);
-		AuthRouter.post(
+		UserRouter.post(
 			'/login',
 			validateBodyRed(LoginRequest),
 			this.login.bind(this),
 		);
 
-		router.use('/auth', AuthRouter);
+		router.use('/user', UserRouter);
 	}
 
 	private async register(req: Request, res: Response, next: NextFunction) {

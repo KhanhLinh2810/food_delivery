@@ -4,7 +4,7 @@ import { ApplicationConfig } from './app.conf';
 import { PublicRouter } from './routers/public.router.conf';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { ErrorHandler } from '../middlewares/error-handler.middleware';
-import { OwnRestaurantRouter } from './routers/restaurant.router.conf';
+import { OwnRestaurantRouter } from './routers/owner_restaurant.router.conf';
 import { UserRouter } from './routers/user.router.conf';
 
 export class Config {

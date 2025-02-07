@@ -1,3 +1,7 @@
+import {
+	CounterService,
+	getNextSequence,
+} from '../api/counter/v1/counter.service';
 import { NumericStringMap } from '../interface/common.interface';
 
 export const getKeysMatching = async (
@@ -11,4 +15,9 @@ export const getKeysMatching = async (
 		}
 	}
 	return matchingKeys;
+};
+
+export const genCode = async (prefix = 'HW', numLen = 8): Promise<string> => {
+	const nextSq = await CounterService.getNextSequence(prefix);
+	return prefix + nextSq.toString().padStart(numLen, '0');
 };

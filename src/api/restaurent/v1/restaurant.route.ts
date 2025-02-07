@@ -11,6 +11,7 @@ import { validateBodyRed } from '../../../middlewares/validation.middleware';
 import { CreateRestaurantRequest } from '../request/create_restaurant';
 import { IRestaurantFilter } from '../../../interface/restaurant.interface';
 import { paginate } from '../../../utilities/paginate.util';
+import { upload } from '../../../utilities/media.utils';
 
 export class RestaurantRouter {
 	private controller = new RestaurantController();
@@ -18,17 +19,18 @@ export class RestaurantRouter {
 	init(router: Router) {
 		const restaurantRouter = Router();
 
-		restaurantRouter.post('/', this.create);
-		restaurantRouter.get('/', this.index);
-		restaurantRouter.get('/:id', this.detail);
-		restaurantRouter.put('/:id', this.update);
-		restaurantRouter.delete('/:id', this.delete);
-
-		router.use(
-			'/restaurant',
+		restaurantRouter.post(
+			'/',
+			upload.single('avatar'),
 			validateBodyRed(CreateRestaurantRequest),
-			restaurantRouter,
+			this.create.bind(this),
 		);
+		restaurantRouter.get('/', this.index.bind(this));
+		restaurantRouter.get('/:id', this.detail.bind(this));
+		restaurantRouter.put('/:id', this.update.bind(this));
+		restaurantRouter.delete('/:id', this.delete.bind(this));
+
+		router.use('/restaurant', restaurantRouter);
 	}
 	// create
 	async create(req: Request, res: Response, next: NextFunction) {

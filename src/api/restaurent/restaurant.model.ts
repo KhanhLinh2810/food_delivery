@@ -1,25 +1,19 @@
 import mongoose from 'mongoose';
-
-export interface OwnerRestaurant {
-	name: string; // tên chủ hoặc tên công ty
-	phone: string; // số điện thoại chủ hoặc công ty
-	address: string; // địa chỉ chủ hoặc công ty
-	fax: string; // mã số thuế chủ hoặc công ty
-	email: string; // email chủ hoặc công ty
-	type: number; // 0 = cửa hàng cá nhân, 1 = cửa hàng công ty, 2 = cửa hàng nhượng quyền
-	person_in_change?: string; // type = 0 -> null; 1 -> trưởng chi nhánh; 2 -> chủ nhượng quyền
-}
+import { OwnerAttrs, OwnerDoc, OwnerSchema } from './owner.model';
+import { RestaurantStatus } from '../../common/constances/restaurant.constances';
 
 export interface RestaurantAttrs {
+	code: string;
 	name: string;
 	house_number: string;
 	city: string;
 	district: string;
 	street: string;
-	owner: OwnerRestaurant;
+	owner: OwnerAttrs;
 	description?: string;
 	phone: string;
-	password?: string;
+	password: string;
+	avatar_url: string;
 }
 
 export interface RestaurantDoc extends mongoose.Document {
@@ -29,25 +23,20 @@ export interface RestaurantDoc extends mongoose.Document {
 	city: string;
 	district: string;
 	street: string;
-	owner: OwnerRestaurant;
+	owner: OwnerDoc;
 	description?: string; // gioi thieu cua hang
 	status: number; // mo cua hay dong cua
 	score: number; // float, 0-100
 	phone: string;
-	password?: string;
+	avatar_url: string;
+	password: string;
 	created_at: Date;
 	updated_at: Date;
 }
 
-const OwnerRestaurantSchema = new mongoose.Schema({
-	name: { type: String, required: true },
-	phone: { type: String, required: true },
-	address: { type: String, required: true },
-	fax: { type: String, required: true },
-	email: { type: String, required: true },
-	type: { type: Number, required: true, default: 0 },
-	person_in_change: { type: String, required: false },
-});
+interface RestaurantModel extends mongoose.Model<RestaurantDoc> {
+	build(attrs: RestaurantAttrs): RestaurantDoc;
+}
 
 export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 	{
@@ -76,7 +65,7 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 			required: true,
 		},
 		owner: {
-			type: OwnerRestaurantSchema,
+			type: OwnerSchema,
 			required: true,
 		},
 		description: {
@@ -86,7 +75,7 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 		status: {
 			type: Number,
 			required: true,
-			default: 0,
+			default: RestaurantStatus.OPEN,
 		},
 		score: {
 			type: Number,
@@ -101,8 +90,21 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 			type: String,
 			required: true,
 		},
+		// avatar_url: {
+		// 	type: String,
+		// 	required: true,
+		// },
 	},
 	{
+		toJSON: {
+			transform: (doc, ret) => {
+				ret.id = ret._id;
+				delete ret._id;
+				delete ret.__v;
+				delete ret.password;
+				return ret;
+			},
+		},
 		timestamps: {
 			createdAt: 'created_at',
 			updatedAt: 'updated_at',
@@ -111,24 +113,13 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 	},
 );
 
-restaurantSchema.set('toJSON', {
-	transform: (doc, ret) => {
-		delete ret.password;
-		return ret;
-	},
-});
-
-interface RestaurantModel extends mongoose.Model<RestaurantDoc> {
-	build(attrs: RestaurantAttrs): RestaurantDoc;
-}
+restaurantSchema.statics.build = function (attrs: RestaurantAttrs) {
+	return new Restaurant(attrs);
+};
 
 const Restaurant = mongoose.model<RestaurantDoc, RestaurantModel>(
 	'Restaurant',
 	restaurantSchema,
 );
-
-restaurantSchema.statics.build = function (attrs: RestaurantAttrs) {
-	return new Restaurant(attrs);
-};
 
 export { Restaurant };

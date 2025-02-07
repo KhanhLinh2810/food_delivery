@@ -1,79 +1,44 @@
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { OwnerRequest } from './owner.request';
 import { Type } from 'class-transformer';
-import {
-	IsEmail,
-	IsNotEmpty,
-	IsOptional,
-	IsString,
-	ValidateNested,
-} from 'class-validator';
-
-export class OwnerRestaurantRequest {
-	@IsNotEmpty()
-	@IsString()
-	name!: string;
-
-	@IsNotEmpty()
-	@IsString()
-	phone!: string;
-
-	@IsNotEmpty()
-	@IsString()
-	address!: string;
-
-	@IsNotEmpty()
-	@IsString()
-	fax!: string;
-
-	@IsNotEmpty()
-	@IsEmail()
-	email!: string;
-
-	@IsNotEmpty()
-	@IsString()
-	person_in_change!: string;
-
-	constructor(req: OwnerRestaurantRequest) {
-		Object.assign(this, req);
-	}
-}
+import 'reflect-metadata';
 
 export class CreateRestaurantRequest {
-	@IsNotEmpty()
 	@IsString()
+	@IsNotEmpty()
 	name!: string;
 
-	@IsNotEmpty()
 	@IsString()
-	phone!: string;
-
 	@IsNotEmpty()
-	@IsString()
-	password!: string;
-
-	@IsNotEmpty()
-	@IsString()
 	house_number!: string;
 
-	@IsNotEmpty()
 	@IsString()
+	@IsNotEmpty()
 	city!: string;
 
-	@IsNotEmpty()
 	@IsString()
+	@IsNotEmpty()
 	district!: string;
 
-	@IsNotEmpty()
 	@IsString()
+	@IsNotEmpty()
 	street!: string;
 
-	// @IsOptional()
+	@Type(() => OwnerRequest)
+	@IsNotEmpty()
+	owner!: OwnerRequest;
+
 	@IsString()
+	@IsOptional()
 	description?: string;
 
-	// @IsOptional()
-	// @Type(() => OwnerRestaurantRequest)
-	// @ValidateNested({ each: true })
-	// representative?: OwnerRestaurantRequest;
+	@IsString()
+	@IsNotEmpty()
+	phone!: string;
+
+	@IsString()
+	@IsNotEmpty()
+	password!: string;
 
 	constructor(req: CreateRestaurantRequest) {
 		Object.assign(this, req);

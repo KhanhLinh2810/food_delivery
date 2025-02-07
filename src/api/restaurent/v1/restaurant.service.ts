@@ -13,9 +13,7 @@ async function create(data_body: RestaurantAttrs): Promise<RestaurantDoc> {
 }
 
 async function getOne(condition: any): Promise<RestaurantDoc | null> {
-	return await Restaurant.findOne({
-		$where: condition,
-	});
+	return await Restaurant.findOne(condition);
 }
 
 async function getMany(

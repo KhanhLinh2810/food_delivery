@@ -1,7 +1,7 @@
 import { OrderPayment } from '../../../common/constances/order.constances';
 import { BadRequestError } from '../../../common/errors/bad-request-error';
 import { ItemDoc } from '../../item/item.model';
-import { ItemOptionDoc } from '../../item/item_option.model';
+import { ItemOptionDoc } from '../../item_option/item_option.model';
 import { ItemService } from '../../item/v1/item.service';
 import { PaymentService } from '../../payment/v1/payment.service';
 import { UserService } from '../../user/v1/user.service';

@@ -1,5 +1,10 @@
+import {
+	RESTAURANT_CODE_LEN,
+	RESTAURANT_CODE_PERFIX,
+} from '../../../common/constances/restaurant.constances';
 import { IPagination } from '../../../interface/pagination.interface';
 import { IRestaurantFilter } from '../../../interface/restaurant.interface';
+import { genCode } from '../../../utilities/string.util';
 import {
 	Restaurant,
 	RestaurantAttrs,
@@ -7,6 +12,7 @@ import {
 } from '../restaurant.model';
 
 async function create(data_body: RestaurantAttrs): Promise<RestaurantDoc> {
+	data_body.code = await genCode(RESTAURANT_CODE_PERFIX, RESTAURANT_CODE_LEN);
 	const restaurant = Restaurant.build(data_body);
 	await restaurant.save();
 	return restaurant;

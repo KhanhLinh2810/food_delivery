@@ -26,10 +26,6 @@ export class RestaurantController {
 		if (data_body.password)
 			data_body.password = await EncUtil.createHash(data_body.password);
 
-		data_body.code = await genCode(
-			RESTAURANT_CODE_PERFIX,
-			RESTAURANT_CODE_LEN,
-		);
 		return await RestaurantService.create(data_body);
 	}
 

@@ -1,13 +1,8 @@
-import {
-	RESTAURANT_CODE_LEN,
-	RESTAURANT_CODE_PERFIX,
-} from '../../../common/constances/restaurant.constances';
 import { BadRequestError } from '../../../common/errors/bad-request-error';
 import { NotFoundError } from '../../../common/errors/not-found-error';
 import { IPagination } from '../../../interface/pagination.interface';
 import { IRestaurantFilter } from '../../../interface/restaurant.interface';
 import { EncUtil } from '../../../utilities/encryption.util';
-import { genCode } from '../../../utilities/string.util';
 import { RestaurantAttrs, RestaurantDoc } from '../restaurant.model';
 import { RestaurantService } from './restaurant.service';
 
@@ -22,10 +17,6 @@ export class RestaurantController {
 		if (data_body.password)
 			data_body.password = await EncUtil.createHash(data_body.password);
 
-		data_body.code = await genCode(
-			RESTAURANT_CODE_PERFIX,
-			RESTAURANT_CODE_LEN,
-		);
 		return await RestaurantService.create(data_body);
 	}
 	async getOne(id: string): Promise<RestaurantDoc> {

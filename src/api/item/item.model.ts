@@ -3,7 +3,7 @@ import {
 	ItemOptionAttrs,
 	ItemOptionDoc,
 	itemOptionSchema,
-} from './item_option.model';
+} from '../item_option/item_option.model';
 
 export interface ItemAttrs {
 	// restaurant_id: mongoose.Schema.Types.ObjectId;

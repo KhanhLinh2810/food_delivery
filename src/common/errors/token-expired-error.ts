@@ -1,16 +1,16 @@
 import { CustomError } from './custom-error';
 
-export class TokenExpriedError extends CustomError {
+export class TokenExpiredError extends CustomError {
 	code: string;
 	statusCode = 401;
 
 	constructor(
-		public message = 'Token expried',
-		code: string = 'token_expried',
+		public message = 'Token expired',
+		code: string = 'token_expired',
 	) {
 		super(message);
 		this.code = code;
-		Object.setPrototypeOf(this, TokenExpriedError.prototype);
+		Object.setPrototypeOf(this, TokenExpiredError.prototype);
 	}
 
 	serializeErrors(): { message: string | string[]; field?: string }[] {

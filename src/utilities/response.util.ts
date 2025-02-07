@@ -1,23 +1,23 @@
-export declare const resOk: (
+export const resOk = (
 	data: any,
 	message?: string,
 	total_item?: number,
 	limit?: number,
 	page?: number,
 	total_pages?: number,
-) => {
-	message?: string;
-	data: any;
+) => ({
+	message,
+	data,
 	meta: {
-		total_item?: number;
-		limit?: number;
-		page?: number;
-		total_pages?: number;
-	};
-};
+		total_item: total_item || undefined,
+		limit: limit || undefined,
+		page: page || undefined,
+		total_pages: total_pages || undefined,
+	},
+});
 
-export declare const resErr: (
-	errors: any,
+export const resErr = (
 	message: string | string[],
 	code?: string,
-) => { message: string | string[]; code?: string; errors: any };
+	errors?: any,
+) => ({ message, code, errors });

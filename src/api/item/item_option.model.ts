@@ -7,7 +7,7 @@ export interface ItemOptionAttrs {
 }
 
 export interface ItemOptionDoc {
-	id: mongoose.Types.ObjectId;
+	id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
 	status: number;

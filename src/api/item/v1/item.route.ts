@@ -9,11 +9,11 @@ export class ItemRouter {
 	public init(router: Router) {
 		const ItemRouter = Router();
 
-		ItemRouter.post('/', this.create);
-		ItemRouter.get('/', this.index);
-		ItemRouter.get('/:id', this.detail);
-		ItemRouter.put('/:id', this.update);
-		ItemRouter.delete('/:id', this.delete);
+		ItemRouter.post('/', this.create.bind(this));
+		ItemRouter.get('/', this.index.bind(this));
+		ItemRouter.get('/:id', this.detail.bind(this));
+		ItemRouter.put('/:id', this.update.bind(this));
+		ItemRouter.delete('/:id', this.delete.bind(this));
 
 		router.use('/item', ItemRouter);
 	}

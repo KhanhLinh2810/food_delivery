@@ -8,7 +8,11 @@ import { RegisterRequest } from './request/register.request';
 import { LoginRequest } from './request/login.request';
 
 export class AuthRouter {
-	private controller = new AuthController();
+	private controller: AuthController;
+
+	constructor() {
+		this.controller = new AuthController();
+	}
 
 	public init(router: Router): void {
 		const AuthRouter = Router();
@@ -16,9 +20,13 @@ export class AuthRouter {
 		AuthRouter.post(
 			'/register',
 			validateBodyRed(RegisterRequest),
-			this.register,
+			this.register.bind(this),
 		);
-		AuthRouter.post('/login', validateBodyRed(LoginRequest), this.login);
+		AuthRouter.post(
+			'/login',
+			validateBodyRed(LoginRequest),
+			this.login.bind(this),
+		);
 
 		router.use('/auth', AuthRouter);
 	}

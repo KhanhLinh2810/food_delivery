@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { AddressAttrs } from '../address/address.model';
+import { UserStatus, UserType } from '../../common/constances/user.constances';
 
 export interface UserAttrs {
 	phone: string;
@@ -12,79 +12,47 @@ export interface UserAttrs {
 	citizen_id?: string;
 	status?: number;
 	type?: number;
-	address_default?: mongoose.Types.ObjectId;
+	address_default?: mongoose.Schema.Types.ObjectId;
 }
 
 export interface UserDoc extends mongoose.Document {
-	id: mongoose.Types.ObjectId;
+	id: mongoose.Schema.Types.ObjectId;
 	phone: string;
 	password: string;
-	score: number; // float
+	score: number;
 	email?: string;
 	user_name?: string;
 	first_name?: string;
 	last_name?: string;
 	avatar_url?: string;
 	citizen_id?: string;
-	status?: number;
-	type?: number;
-	address_default?: mongoose.Types.ObjectId;
+	status: number;
+	type: number;
+	address_default?: mongoose.Schema.Types.ObjectId;
 	created_at: Date;
 	updated_at: Date;
 }
 
+interface UserModel extends mongoose.Model<UserDoc> {
+	build(attrs: UserAttrs): UserDoc;
+}
+
 const userSchema = new mongoose.Schema<UserDoc>(
 	{
-		phone: {
-			type: String,
-			required: true,
-		},
-		password: {
-			type: String,
-			required: true,
-		},
-		score: {
-			type: Number,
-			required: true,
-			default: 70,
-		},
-		email: {
-			type: String,
-			required: false,
-		},
-		user_name: {
-			type: String,
-			required: true,
-		},
-		first_name: {
-			type: String,
-			required: false,
-		},
-		last_name: {
-			type: String,
-			required: false,
-		},
-		avatar_url: {
-			type: String,
-			required: false,
-		},
-		citizen_id: {
-			type: String,
-			required: false,
-		},
-		status: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
-		type: {
-			type: Number,
-			required: true,
-			default: 0,
-		},
+		phone: { type: String, unique: true, required: true },
+		password: { type: String, required: true },
+		score: { type: Number, required: true, default: 60 },
+		email: { type: String },
+		user_name: { type: String, required: false },
+		first_name: { type: String },
+		last_name: { type: String },
+		avatar_url: { type: String },
+		citizen_id: { type: String },
+		status: { type: Number, required: true, default: UserStatus.ACTIVE },
+		type: { type: Number, required: true, default: UserType.MEMBER },
 		address_default: {
-			type: mongoose.Types.ObjectId,
-			required: false,
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Address',
 		},
 	},
 	{
@@ -98,19 +66,19 @@ const userSchema = new mongoose.Schema<UserDoc>(
 
 userSchema.set('toJSON', {
 	transform: (doc, ret) => {
+		ret.id = ret._id;
+		delete ret._id;
 		delete ret.password;
+		delete ret.__v;
+		delete ret.citizen_id;
 		return ret;
 	},
 });
 
-interface UserModel extends mongoose.Model<UserDoc> {
-	build(attrs: UserAttrs): UserDoc;
-}
-
-const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
-
-userSchema.statics.build = (attrs: UserAttrs) => {
+userSchema.statics.build = function (attrs: UserAttrs): UserDoc {
 	return new User(attrs);
 };
+
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User };

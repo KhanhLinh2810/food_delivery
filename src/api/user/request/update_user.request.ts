@@ -7,14 +7,14 @@ import {
 } from 'class-validator';
 import mongoose from 'mongoose';
 
-export class RegisterRequest {
-	@IsNotEmpty()
+export class UpdateUserRequest {
+	@IsOptional()
 	@IsString()
-	phone!: string;
+	phone?: string;
 
-	@IsNotEmpty()
+	@IsOptional()
 	@IsString()
-	password!: string;
+	password?: string;
 
 	@IsOptional()
 	@IsEmail()
@@ -51,7 +51,7 @@ export class RegisterRequest {
 	@IsOptional()
 	address_default?: mongoose.Schema.Types.ObjectId;
 
-	constructor(req: RegisterRequest) {
+	constructor(req: UpdateUserRequest) {
 		Object.assign(this, req);
 	}
 }

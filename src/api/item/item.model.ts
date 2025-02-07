@@ -6,20 +6,20 @@ import {
 } from './item_option.model';
 
 export interface ItemAttrs {
-	restaurant_id: mongoose.Types.ObjectId;
+	// restaurant_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
 	description?: string;
 	status: number;
 	option_groups: {
 		name: string;
-		option: ItemOptionAttrs[];
+		options: ItemOptionAttrs[];
 	}[];
 }
 
 export interface ItemDoc extends mongoose.Document {
-	id: mongoose.Types.ObjectId;
-	restaurant_id: mongoose.Types.ObjectId;
+	id: mongoose.Schema.Types.ObjectId;
+	restaurant_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
 	description?: string;
@@ -29,17 +29,21 @@ export interface ItemDoc extends mongoose.Document {
 	number_of_sales: number;
 	option_groups: {
 		name: string;
-		option: ItemOptionDoc[];
+		options: ItemOptionDoc[];
 	}[];
 	created_at: Date;
 	updated_at: Date;
+}
+
+interface ItemModel extends mongoose.Model<ItemDoc> {
+	build(attrs: ItemAttrs): ItemDoc;
 }
 
 export const itemSchema = new mongoose.Schema<ItemDoc>(
 	{
 		restaurant_id: {
 			type: Schema.Types.ObjectId,
-			required: true,
+			required: false,
 		},
 		name: {
 			type: String,
@@ -80,7 +84,7 @@ export const itemSchema = new mongoose.Schema<ItemDoc>(
 					type: String,
 					required: true,
 				},
-				option: {
+				options: {
 					type: [itemOptionSchema],
 					required: false,
 				},
@@ -95,14 +99,10 @@ export const itemSchema = new mongoose.Schema<ItemDoc>(
 	},
 );
 
-interface ItemModel extends mongoose.Model<ItemDoc> {
-	build(attrs: ItemAttrs): ItemDoc;
-}
-
-const Item = mongoose.model<ItemDoc, ItemModel>('Item', itemSchema);
-
 itemSchema.statics.build = (attrs: ItemAttrs) => {
 	return new Item(attrs);
 };
+
+const Item = mongoose.model<ItemDoc, ItemModel>('Item', itemSchema);
 
 export { Item };

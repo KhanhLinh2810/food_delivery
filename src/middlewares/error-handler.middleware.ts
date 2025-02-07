@@ -15,12 +15,12 @@ export const ErrorHandler = (
 			const errors = err.serializeErrors();
 			return res
 				.status(err.statusCode)
-				.send(resErr(errors, 'error', err.code));
+				.send(resErr('error', err.code, errors));
 		}
 
 		return res
 			.status(err.statusCode)
-			.send(resErr(err, err.message, err.code));
+			.send(resErr(err.message, err.code, err));
 	}
 
 	res.status(500).send('some_thing_wrong');

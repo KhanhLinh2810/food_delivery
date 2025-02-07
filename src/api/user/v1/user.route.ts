@@ -1,43 +1,87 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { UserController } from './user.controller';
 import { UserAttrs } from '../user.model';
-import { BadRequestError } from '../../../common/errors/bad-request-error';
 import { resOk } from '../../../utilities/response.util';
 import { validateBodyRed } from '../../../middlewares/validation.middleware';
-import {
-	parseSafeInterger,
-	toSafeInteger,
-	toSafeString,
-} from '../../../utilities/data.utils';
+import { parseSafeInterger, toSafeString } from '../../../utilities/data.utils';
 import { paginate } from '../../../utilities/paginate.util';
 import { IUserFilter } from '../../../interface/user.interface';
 import { CreateUserRequest } from '../request/create_user.request';
+import { UpdateUserRequest } from '../request/update_user.request';
 
-export class UserRouter {
+export class AccountUserRouter {
 	private UserController = new UserController();
 
 	public init(router: Router) {
 		const userRouter = Router();
 
+		// site user
+		userRouter.get('/me', this.getMe.bind(this));
+		userRouter.put(
+			'/me',
+			validateBodyRed(UpdateUserRequest),
+			this.updateMe.bind(this),
+		);
+
+		// site admin
 		userRouter.post(
-			'/register',
+			'/',
+			// them validate token admin
 			validateBodyRed(CreateUserRequest),
 			this.create,
 		);
-		userRouter.get('/', this.index);
-		userRouter.get('/:id', this.detail);
-		userRouter.put('/:id', this.update);
-		userRouter.delete('/:id', this.delete);
+		userRouter.get(
+			'/',
+			// them validate cho admin
+			this.index.bind(this),
+		);
+		userRouter.get(
+			'/:id',
+			// them validate cho admin
+			this.detail.bind(this),
+		);
+		userRouter.put(
+			'/:id',
+			validateBodyRed(UpdateUserRequest),
+			this.update.bind(this),
+		);
+		// no access delete
+		// userRouter.delete('/:id', this.delete.bind(this));
 
-		router.use('/user', userRouter);
+		router.use('/account', userRouter);
 	}
+
+	/* site user */
+
+	// get profile
+	private async getMe(req: Request, res: Response, next: NextFunction) {
+		try {
+			const user = req.user;
+			return res.status(200).json(resOk(user));
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	// update profile
+	private async updateMe(req: Request, res: Response, next: NextFunction) {
+		try {
+			const id = req.user.id.toString();
+			const data_body: UserAttrs = req.body;
+			const user = await this.UserController.update(id, data_body);
+			return res.status(200).json(resOk(user));
+		} catch (error) {
+			next(error);
+		}
+	}
+
+	/* site admin */
+
 	// create
 	private async create(req: Request, res: Response, next: NextFunction) {
 		try {
-			console.log('-------------------------------');
 			const data_body: UserAttrs = req.body;
 			const user = await this.UserController.create(data_body);
-			console.log('-------------------------------');
 			return res.status(200).json(resOk(user));
 		} catch (error) {
 			next(error);

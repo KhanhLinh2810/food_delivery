@@ -1,19 +1,20 @@
 import mongoose, { Schema } from 'mongoose';
+import { AddressType } from '../../common/constances/address.constances';
 
 export interface AddressAttrs {
-	user_id: mongoose.Types.ObjectId;
+	user_id?: mongoose.Schema.Types.ObjectId;
 	name: string;
 	phone: string;
 	house_number?: string;
 	city: string;
 	district: string;
 	street: string;
-	type: number; // home or office
+	type: number;
 }
 
 export interface AddressDoc extends mongoose.Document {
-	id: mongoose.Types.ObjectId;
-	user_id: mongoose.Types.ObjectId;
+	id: mongoose.Schema.Types.ObjectId;
+	user_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	phone: string;
 	house_number?: string;
@@ -58,7 +59,7 @@ export const addressSchema = new mongoose.Schema<AddressDoc>(
 		type: {
 			type: Number,
 			required: true,
-			default: 1,
+			default: AddressType.HOME,
 		},
 	},
 	{
@@ -69,17 +70,26 @@ export const addressSchema = new mongoose.Schema<AddressDoc>(
 	},
 );
 
+addressSchema.set('toJSON', {
+	transform: (doc, ret) => {
+		ret.id = ret._id;
+		delete ret._id;
+		delete ret.__v;
+		return ret;
+	},
+});
+
 interface AddressModel extends mongoose.Model<AddressDoc> {
 	build(attrs: AddressAttrs): AddressDoc;
 }
+
+addressSchema.statics.build = (attrs: AddressAttrs) => {
+	return new Address(attrs);
+};
 
 const Address = mongoose.model<AddressDoc, AddressModel>(
 	'Address',
 	addressSchema,
 );
-
-addressSchema.statics.build = (attrs: AddressAttrs) => {
-	return new Address(attrs);
-};
 
 export { Address };

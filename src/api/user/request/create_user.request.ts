@@ -8,6 +8,7 @@ import {
 import mongoose from 'mongoose';
 
 export class CreateUserRequest {
+	// check regex
 	@IsNotEmpty()
 	@IsString()
 	phone!: string;
@@ -49,7 +50,7 @@ export class CreateUserRequest {
 	type?: number;
 
 	@IsOptional()
-	address_default?: mongoose.Types.ObjectId;
+	address_default?: mongoose.Schema.Types.ObjectId;
 
 	constructor(req: CreateUserRequest) {
 		Object.assign(this, req);

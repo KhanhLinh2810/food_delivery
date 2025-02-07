@@ -12,7 +12,7 @@ export class ItemControler {
 		return await ItemService.create(data_body);
 	}
 	async getMany() {
-		return await ItemService.getMany();
+		return await ItemService.getMany({});
 	}
 	async getOne(id: string): Promise<ItemDoc> {
 		const item = await ItemService.getOne({ id: id });

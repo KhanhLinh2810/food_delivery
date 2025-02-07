@@ -1,7 +1,9 @@
+import mongoose from 'mongoose';
 import { IPagination } from '../../../interface/pagination.interface';
 import { IUserFilter } from '../../../interface/user.interface';
 import { getKeysMatching } from '../../../utilities/string.util';
 import { User, UserAttrs, UserDoc } from '../user.model';
+import { BadRequestError } from '../../../common/errors/bad-request-error';
 
 export async function create(data_body: UserAttrs): Promise<UserDoc> {
 	const user = User.build(data_body);
@@ -10,9 +12,7 @@ export async function create(data_body: UserAttrs): Promise<UserDoc> {
 }
 
 export async function getOne(condition: any): Promise<UserDoc | null> {
-	return await User.findOne({
-		where: condition,
-	});
+	return await User.findOne(condition);
 }
 
 export async function getMany(
@@ -152,10 +152,20 @@ export async function buildQuery(filter: IUserFilter) {
 	return query;
 }
 
+async function findById(id: string): Promise<UserDoc> {
+	const user = await User.findById(id);
+	if (!user) {
+		throw new BadRequestError('user_not_found');
+	}
+	return user;
+}
+
 export const UserService = {
 	create,
 	getOne,
 	getMany,
 	update,
 	deleteById,
+	buildQuery,
+	findOrFaild: findById,
 };

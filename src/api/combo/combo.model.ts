@@ -10,21 +10,21 @@ export interface ComboAttrs {
 	description?: string;
 	price: number;
 	combo_item: {
-		item_id: mongoose.Types.ObjectId;
-		item_option: mongoose.Types.ObjectId;
+		item_id: mongoose.Schema.Types.ObjectId;
+		item_option: mongoose.Schema.Types.ObjectId;
 		quanlity: number;
 	}[];
 }
 
 export interface ComboDoc {
-	id: mongoose.Types.ObjectId;
+	id: mongoose.Schema.Types.ObjectId;
 	code: string;
 	name: string;
 	description?: string;
 	price: number;
 	combo_item: {
-		item_id: mongoose.Types.ObjectId;
-		item_option: mongoose.Types.ObjectId;
+		item_id: mongoose.Schema.Types.ObjectId;
+		item_option: mongoose.Schema.Types.ObjectId;
 		quanlity: number;
 	}[];
 	created_at: Date;

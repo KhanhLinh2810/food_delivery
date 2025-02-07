@@ -1,17 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
 
 export interface ReviewAttrs {
-	item_id: mongoose.Types.ObjectId;
-	user_id: mongoose.Types.ObjectId;
-	order_id: mongoose.Types.ObjectId;
+	item_id: mongoose.Schema.Types.ObjectId;
+	user_id: mongoose.Schema.Types.ObjectId;
+	order_id: mongoose.Schema.Types.ObjectId;
 	score: number;
 	desciption?: string;
 }
 
 export interface ReviewDoc extends mongoose.Document {
-	item_id: mongoose.Types.ObjectId;
-	user_id: mongoose.Types.ObjectId;
-	order_id: mongoose.Types.ObjectId;
+	item_id: mongoose.Schema.Types.ObjectId;
+	user_id: mongoose.Schema.Types.ObjectId;
+	order_id: mongoose.Schema.Types.ObjectId;
 	score: number;
 	desciption?: string;
 	created_at: Date;

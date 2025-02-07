@@ -8,6 +8,7 @@ export function validateBodyRed<T>(type: T, options?: ValidationOptions) {
 	return (req: Request, res: Response, next: NextFunction) => {
 		try {
 			validate(type, req.body, options);
+			next();
 		} catch (error: any) {
 			if (error instanceof RequestValidationError) {
 				next(error);
@@ -22,6 +23,7 @@ export function validateParamsRed<T>(type: T, options?: ValidationOptions) {
 	return (req: Request, res: Response, next: NextFunction) => {
 		try {
 			validate(type, req.params, options);
+			next();
 		} catch (error: any) {
 			if (error instanceof RequestValidationError) {
 				next(error);
@@ -36,6 +38,7 @@ export function validateQueryRed<T>(type: T, options?: ValidationOptions) {
 	return (req: Request, res: Response, next: NextFunction) => {
 		try {
 			validate(type, req.query, options);
+			next();
 		} catch (error: any) {
 			if (error instanceof RequestValidationError) {
 				next(error);

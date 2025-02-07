@@ -5,16 +5,17 @@ import { PublicRouter } from './routers/public.router.conf';
 import { NotFoundError } from '../common/errors/not-found-error';
 import { ErrorHandler } from '../middlewares/error-handler.middleware';
 import { OwnRestaurantRouter } from './routers/restaurant.router.conf';
+import { UserRouter } from './routers/user.router.conf';
 
 export class Config {
 	public static async init(): Promise<express.Application> {
 		const app = express();
 		const router = express.Router();
-
 		await connectToDatabase();
 
 		ApplicationConfig.init(app);
 
+		UserRouter.init(app, router);
 		PublicRouter.init(app, router);
 		OwnRestaurantRouter.init(app, router);
 

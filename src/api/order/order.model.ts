@@ -1,22 +1,22 @@
 import mongoose from 'mongoose';
 import {
-	AddressAttrs,
-	AddressDoc,
-	addressSchema,
-} from '../address/address.model';
-import { userInfo } from 'os';
-import {
 	OrderItemAttrs,
 	OrderItemDoc,
 	orderItemSchema,
 } from './order_item.model';
+import {
+	OrderPayment,
+	OrderStatus,
+} from '../../common/constances/order.constances';
 
 export interface OrderAttrs {
 	shipper_id?: mongoose.Schema.Types.ObjectId;
-	status: number;
-	user_info: AddressAttrs;
-	order_item: OrderItemAttrs[];
+	address: string;
+	user_id: mongoose.Schema.Types.ObjectId;
+	order_items: OrderItemAttrs[];
 	ship_cost: number;
+	payment: number;
+	total_amount?: number;
 }
 
 export interface OrderDoc extends mongoose.Document {
@@ -24,10 +24,15 @@ export interface OrderDoc extends mongoose.Document {
 	user_id: mongoose.Schema.Types.ObjectId;
 	shipper_id: mongoose.Schema.Types.ObjectId;
 	status: number;
-	user_info: AddressDoc;
-	order_item: OrderItemDoc[];
+	address: string;
+	order_items: OrderItemDoc[];
 	ship_cost: number;
 	total_amount: number;
+	payment: number;
+}
+
+interface OrderModel extends mongoose.Model<OrderDoc> {
+	build(attrs: OrderAttrs): OrderDoc;
 }
 
 const orderSchema = new mongoose.Schema<OrderDoc>(
@@ -39,13 +44,13 @@ const orderSchema = new mongoose.Schema<OrderDoc>(
 		status: {
 			type: Number,
 			required: true,
-			default: 0,
+			default: OrderStatus.NEW,
 		},
-		user_info: {
-			type: addressSchema,
+		address: {
+			type: String,
 			required: true,
 		},
-		order_item: [
+		order_items: [
 			{
 				type: orderItemSchema,
 				required: true,
@@ -61,6 +66,11 @@ const orderSchema = new mongoose.Schema<OrderDoc>(
 			required: true,
 			default: 0,
 		},
+		payment: {
+			type: Number,
+			required: true,
+			default: OrderPayment.COD,
+		},
 	},
 	{
 		timestamps: {
@@ -70,14 +80,10 @@ const orderSchema = new mongoose.Schema<OrderDoc>(
 	},
 );
 
-interface OrderModel extends mongoose.Model<OrderDoc> {
-	build(attrs: OrderAttrs): OrderDoc;
-}
+orderSchema.statics.build = function (attrs: OrderAttrs) {
+	return new Order(attrs);
+};
 
 const Order = mongoose.model<OrderDoc, OrderModel>('Order', orderSchema);
-
-orderSchema.statics.build = function (attrs: OrderAttrs) {
-	return new Order();
-};
 
 export { Order };

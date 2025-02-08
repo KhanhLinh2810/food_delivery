@@ -1,4 +1,4 @@
-import { OrderPayment } from '../../../common/constances/order.constances';
+import { OrderPayment } from '../../constances/order.constances';
 import { BadRequestError } from '../../../common/errors/bad-request-error';
 import { ItemDoc } from '../../item/item.model';
 import { ItemOptionDoc } from '../../item_option/item_option.model';
@@ -33,16 +33,16 @@ export class OrderController {
 			}
 			item_amount += item.price;
 
-			item.option_groups.map((option_group) => {
-				const option = option_group.options.find(
-					(option: ItemOptionDoc) =>
-						option.id === order_item.item_option_id,
-				);
-				if (!option) {
-					throw new BadRequestError('item_invalid');
-				}
-				item_amount += option.price;
-			});
+			// item.option_groups.map((option_group) => {
+			// 	const option = option_group.options.find(
+			// 		(option: ItemOptionDoc) =>
+			// 			option.id === order_item.item_option_id,
+			// 	);
+			// 	if (!option) {
+			// 		throw new BadRequestError('item_invalid');
+			// 	}
+			// 	item_amount += option.price;
+			// });
 			total_amount += item_amount * order_item.quanlity;
 		});
 		data_body.total_amount = total_amount;

@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
-import { ItemOptionStatus } from '../../common/constances/item_option.constances';
+import { ItemOptionStatus } from '../constances/item_option.constances';
 
 export interface ItemOptionAttrs {
+	restaurant_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
 	status: number;
@@ -9,6 +10,7 @@ export interface ItemOptionAttrs {
 
 export interface ItemOptionDoc extends mongoose.Document {
 	id: mongoose.Schema.Types.ObjectId;
+	restaurant_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
 	status: number;
@@ -20,6 +22,10 @@ interface ItemOptionModel extends mongoose.Model<ItemOptionDoc> {
 
 export const itemOptionSchema = new mongoose.Schema<ItemOptionDoc>(
 	{
+		restaurant_id: {
+			type: Schema.Types.ObjectId,
+			required: false,
+		},
 		name: {
 			type: String,
 			required: true,

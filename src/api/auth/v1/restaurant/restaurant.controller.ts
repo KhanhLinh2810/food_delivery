@@ -1,7 +1,7 @@
 import {
 	RESTAURANT_CODE_LEN,
 	RESTAURANT_CODE_PERFIX,
-} from '../../../../common/constances/restaurant.constances';
+} from '../../../constances/restaurant.constances';
 import { BadRequestError } from '../../../../common/errors/bad-request-error';
 import { env } from '../../../../env';
 import { ILoginInterface, IToken } from '../../../../interface/auth.interface';

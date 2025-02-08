@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { OwnerType } from '../../common/constances/restaurant.constances';
+import { OwnerType } from '../constances/restaurant.constances';
 
 export interface OwnerAttrs {
 	name: string; // tên chủ hoặc tên công ty

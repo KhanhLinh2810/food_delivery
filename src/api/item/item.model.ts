@@ -1,19 +1,16 @@
 import mongoose, { Schema } from 'mongoose';
-import {
-	ItemOptionAttrs,
-	ItemOptionDoc,
-	itemOptionSchema,
-} from '../item_option/item_option.model';
+import { ItemStatus } from '../constances/item.constances';
 
 export interface ItemAttrs {
-	// restaurant_id: mongoose.Schema.Types.ObjectId;
+	restaurant_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
+	avatar_url: string;
 	description?: string;
-	status: number;
 	option_groups: {
 		name: string;
-		options: ItemOptionAttrs[];
+		type: number;
+		item_option_ids: mongoose.Schema.Types.ObjectId[];
 	}[];
 }
 
@@ -22,6 +19,7 @@ export interface ItemDoc extends mongoose.Document {
 	restaurant_id: mongoose.Schema.Types.ObjectId;
 	name: string;
 	price: number;
+	avatar_url: string;
 	description?: string;
 	status: number;
 	score: number;
@@ -29,7 +27,8 @@ export interface ItemDoc extends mongoose.Document {
 	number_of_sales: number;
 	option_groups: {
 		name: string;
-		options: ItemOptionDoc[];
+		type: number;
+		item_option_ids: mongoose.Schema.Types.ObjectId[];
 	}[];
 	created_at: Date;
 	updated_at: Date;
@@ -54,6 +53,12 @@ export const itemSchema = new mongoose.Schema<ItemDoc>(
 			required: true,
 			default: 0,
 		},
+		avatar_url: {
+			type: String,
+			required: true,
+			default:
+				'https://img5.thuthuatphanmem.vn/uploads/2021/11/09/anh-do-an-dep-hap-dan-nhat_095145059.png',
+		},
 		description: {
 			type: String,
 			required: false,
@@ -61,7 +66,7 @@ export const itemSchema = new mongoose.Schema<ItemDoc>(
 		status: {
 			type: Number,
 			required: true,
-			default: 0,
+			default: ItemStatus.ON_SALE_SOON,
 		},
 		score: {
 			type: Number,
@@ -84,14 +89,28 @@ export const itemSchema = new mongoose.Schema<ItemDoc>(
 					type: String,
 					required: true,
 				},
-				options: {
-					type: [itemOptionSchema],
+				type: {
+					type: Number,
+					required: true,
+				},
+				item_option_ids: {
+					type: [mongoose.Schema.Types.ObjectId],
 					required: false,
+					ref: 'ItemOption',
 				},
 			},
 		],
 	},
 	{
+		toJSON: {
+			transform: (doc, ret) => {
+				ret.id = ret._id;
+				delete ret._id;
+				delete ret.__v;
+				delete ret.option_groups._id;
+				return ret;
+			},
+		},
 		timestamps: {
 			createdAt: 'created_at', // Use `created_at` to store the created date
 			updatedAt: 'updated_at', // and `updated_at` to store the last updated date

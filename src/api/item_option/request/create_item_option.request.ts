@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateItemOptionRequest {
 	@IsString()
@@ -10,8 +10,8 @@ export class CreateItemOptionRequest {
 	price!: number;
 
 	@IsNumber()
-	@IsNotEmpty()
-	status!: number;
+	@IsOptional()
+	status?: number;
 
 	constructor(req: CreateItemOptionRequest) {
 		Object.assign(this, req);

@@ -4,6 +4,7 @@ import { IUserFilter } from '../../../interface/user.interface';
 import { getKeysMatching } from '../../../utilities/string.util';
 import { User, UserAttrs, UserDoc } from '../user.model';
 import { BadRequestError } from '../../../common/errors/bad-request-error';
+import { USER_URL } from '../../../common/constances';
 
 export async function create(data_body: UserAttrs): Promise<UserDoc> {
 	const user = User.build(data_body);
@@ -160,6 +161,10 @@ async function findById(id: string): Promise<UserDoc> {
 	return user;
 }
 
+function IsSiteUser(original_url: string): boolean {
+	return USER_URL.some((url: string) => original_url.startsWith(url));
+}
+
 export const UserService = {
 	create,
 	getOne,
@@ -168,4 +173,5 @@ export const UserService = {
 	deleteById,
 	buildQuery,
 	findOrFaild: findById,
+	IsSiteUser,
 };

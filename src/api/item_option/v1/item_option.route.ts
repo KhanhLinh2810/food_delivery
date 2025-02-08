@@ -23,6 +23,7 @@ export class ItemOptionRouter {
 	private async create(req: Request, res: Response, next: NextFunction) {
 		try {
 			const data_body: ItemOptionAttrs = req.body;
+			data_body.restaurant_id = req.restaurant.id;
 			const item_option = await this.controller.create(data_body);
 			return res.status(200).json(resOk(item_option));
 		} catch (error) {

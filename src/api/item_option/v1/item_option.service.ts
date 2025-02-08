@@ -10,6 +10,11 @@ const create = async (data_body: ItemOptionAttrs): Promise<ItemOptionDoc> => {
 	return option;
 };
 
+async function getOne(condition: any): Promise<ItemOptionDoc | null> {
+	return await ItemOption.findOne(condition);
+}
+
 export const ItemOptionService = {
 	create,
+	getOne,
 };

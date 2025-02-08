@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { UserStatus, UserType } from '../../common/constances/user.constances';
+import { UserStatus, UserType } from '../constances/user.constances';
 
 export interface UserAttrs {
 	phone: string;

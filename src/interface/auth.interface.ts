@@ -1,5 +1,3 @@
-import { UserDoc } from '../api/user/user.model';
-
 export interface ILoginInterface {
 	phone: string;
 	password: string;
@@ -14,14 +12,6 @@ export interface ITokenPayload {
 	id: string;
 	iat?: string;
 	exp?: string;
-}
-
-declare global {
-	namespace Express {
-		interface Request {
-			user: UserDoc;
-		}
-	}
 }
 
 export interface IGenToken {

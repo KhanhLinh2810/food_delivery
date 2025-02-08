@@ -2,6 +2,7 @@ export enum RestaurantStatus {
 	OPEN = 1,
 	NOT_OPEN_YET = 2,
 	TEMPORARILY_SUSPENDED = 3,
+	PERMANENTLY_CLOSED = 4,
 }
 
 export enum OwnerType {

@@ -3,7 +3,7 @@ import { OrderController } from './order.controller';
 import { OrderAttrs } from '../order.model';
 import { resOk } from '../../../utilities/response.util';
 import { validateBodyRed } from '../../../middlewares/validation.middleware';
-import { CreateOrderRequest } from './request/create-order.request';
+import { CreateOrderRequest } from '../request/create-order.request';
 
 export class OrderRouter {
 	private controller = new OrderController();

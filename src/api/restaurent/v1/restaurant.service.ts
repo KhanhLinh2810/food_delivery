@@ -1,7 +1,7 @@
 import {
 	RESTAURANT_CODE_LEN,
 	RESTAURANT_CODE_PERFIX,
-} from '../../../common/constances/restaurant.constances';
+} from '../../constances/restaurant.constances';
 import { IPagination } from '../../../interface/pagination.interface';
 import { IRestaurantFilter } from '../../../interface/restaurant.interface';
 import { genCode } from '../../../utilities/string.util';
@@ -10,6 +10,7 @@ import {
 	RestaurantAttrs,
 	RestaurantDoc,
 } from '../restaurant.model';
+import { RESTAURANT_URL } from '../../../common/constances';
 
 async function create(data_body: RestaurantAttrs): Promise<RestaurantDoc> {
 	data_body.code = await genCode(RESTAURANT_CODE_PERFIX, RESTAURANT_CODE_LEN);
@@ -132,10 +133,15 @@ function buildQuery(filter: IRestaurantFilter) {
 	return query;
 }
 
+function IsSiteRestaurant(original_url: string): boolean {
+	return RESTAURANT_URL.some((url: string) => original_url.startsWith(url));
+}
+
 export const RestaurantService = {
 	create,
 	getOne,
 	getMany,
 	deleteById,
 	buildQuery,
+	IsSiteRestaurant,
 };

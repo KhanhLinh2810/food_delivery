@@ -4,10 +4,7 @@ import {
 	OrderItemDoc,
 	orderItemSchema,
 } from './order_item.model';
-import {
-	OrderPayment,
-	OrderStatus,
-} from '../../common/constances/order.constances';
+import { OrderPayment, OrderStatus } from '../constances/order.constances';
 
 export interface OrderAttrs {
 	shipper_id?: mongoose.Schema.Types.ObjectId;

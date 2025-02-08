@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { AddressType } from '../../common/constances/address.constances';
+import { AddressType } from '../constances/address.constances';
 
 export interface AddressAttrs {
 	user_id?: mongoose.Schema.Types.ObjectId;

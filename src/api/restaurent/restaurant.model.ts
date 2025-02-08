@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { OwnerAttrs, OwnerDoc, OwnerSchema } from './owner.model';
-import { RestaurantStatus } from '../../common/constances/restaurant.constances';
+import { RestaurantStatus } from '../constances/restaurant.constances';
 
 export interface RestaurantAttrs {
 	code: string;

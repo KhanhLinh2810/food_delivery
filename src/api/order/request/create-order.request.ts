@@ -1,11 +1,15 @@
 import {
 	IsArray,
+	IsEnum,
 	IsMongoId,
 	IsNotEmpty,
 	IsNumber,
+	IsOptional,
 	IsString,
+	Min,
 } from 'class-validator';
 import mongoose from 'mongoose';
+import { OrderPayment } from '../../constances/order.constances';
 
 export class CreateOrderRequest {
 	@IsString()
@@ -23,7 +27,7 @@ export class CreateOrderRequest {
 	@IsArray()
 	order_items!: OrderItemRequest[];
 
-	@IsNumber()
+	@IsEnum(OrderPayment)
 	@IsNotEmpty()
 	payment!: number;
 
@@ -38,10 +42,12 @@ export class OrderItemRequest {
 	item_id!: mongoose.Schema.Types.ObjectId;
 
 	@IsMongoId()
-	item_option_id!: mongoose.Schema.Types.ObjectId;
+	@IsOptional()
+	item_option_id?: mongoose.Schema.Types.ObjectId;
 
 	@IsNumber()
 	@IsNotEmpty()
+	@Min(1)
 	quanlity!: number;
 
 	constructor(req: OrderItemRequest) {

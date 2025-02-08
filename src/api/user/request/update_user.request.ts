@@ -4,8 +4,10 @@ import {
 	IsString,
 	IsEmail,
 	IsNumber,
+	IsEnum,
 } from 'class-validator';
 import mongoose from 'mongoose';
+import { UserStatus, UserType } from '../../constances/user.constances';
 
 export class UpdateUserRequest {
 	@IsOptional()
@@ -41,11 +43,11 @@ export class UpdateUserRequest {
 	citizen_id?: string;
 
 	@IsOptional()
-	@IsNumber()
+	@IsEnum(UserStatus)
 	status?: number;
 
 	@IsOptional()
-	@IsNumber()
+	@IsEnum(UserType)
 	type?: number;
 
 	@IsOptional()

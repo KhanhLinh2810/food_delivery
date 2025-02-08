@@ -1,4 +1,9 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+	IsNotEmpty,
+	IsNumberString,
+	IsOptional,
+	IsString,
+} from 'class-validator';
 import { OwnerRequest } from './owner.request';
 import { Type } from 'class-transformer';
 import 'reflect-metadata';
@@ -32,7 +37,7 @@ export class CreateRestaurantRequest {
 	@IsOptional()
 	description?: string;
 
-	@IsString()
+	@IsNumberString()
 	@IsNotEmpty()
 	phone!: string;
 

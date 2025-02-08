@@ -4,13 +4,16 @@ import {
 	IsString,
 	IsEmail,
 	IsNumber,
+	IsEnum,
+	IsNumberString,
 } from 'class-validator';
 import mongoose from 'mongoose';
+import { UserStatus, UserType } from '../../constances/user.constances';
 
 export class CreateUserRequest {
-	// check regex
+	//? check regex
 	@IsNotEmpty()
-	@IsString()
+	@IsNumberString()
 	phone!: string;
 
 	@IsNotEmpty()
@@ -42,11 +45,11 @@ export class CreateUserRequest {
 	citizen_id?: string;
 
 	@IsOptional()
-	@IsNumber()
+	@IsEnum(UserStatus)
 	status?: number;
 
 	@IsOptional()
-	@IsNumber()
+	@IsEnum(UserType)
 	type?: number;
 
 	@IsOptional()

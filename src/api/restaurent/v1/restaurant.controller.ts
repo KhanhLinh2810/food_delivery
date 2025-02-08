@@ -9,7 +9,7 @@ import { RestaurantService } from './restaurant.service';
 export class RestaurantController {
 	async create(data_body: RestaurantAttrs): Promise<RestaurantDoc> {
 		const checkPhone = await RestaurantService.getOne({
-			phone: data_body.phone,
+			$or: [{ phone: data_body.phone }, { name: data_body.name }],
 		});
 		if (checkPhone) {
 			throw new BadRequestError('phone_exist');
@@ -19,6 +19,7 @@ export class RestaurantController {
 
 		return await RestaurantService.create(data_body);
 	}
+
 	async getOne(id: string): Promise<RestaurantDoc> {
 		const restaurant = await RestaurantService.getOne({ id: id });
 		if (!restaurant) {
@@ -26,6 +27,7 @@ export class RestaurantController {
 		}
 		return restaurant;
 	}
+
 	async getMany(
 		filter: IRestaurantFilter,
 		paging: IPagination,
@@ -33,6 +35,7 @@ export class RestaurantController {
 		const query = RestaurantService.buildQuery(filter);
 		return await RestaurantService.getMany(query, paging);
 	}
+
 	async update(
 		id: string,
 		data_body: RestaurantAttrs,
@@ -46,7 +49,16 @@ export class RestaurantController {
 				throw new BadRequestError('phone_exist');
 			}
 		}
+		if (restaurant.name !== data_body.name) {
+			const checkName = await RestaurantService.getOne({
+				name: data_body.name,
+			});
+			if (checkName) {
+				throw new BadRequestError('name_exist');
+			}
+		}
 		restaurant.set(data_body);
+
 		if (data_body.password) {
 			restaurant.set({
 				password: await EncUtil.createHash(data_body.password),
@@ -55,6 +67,7 @@ export class RestaurantController {
 		await restaurant.save();
 		return restaurant;
 	}
+
 	async destroy(id: string) {
 		const restaurant = await RestaurantService.deleteById(id);
 		if (!restaurant) {

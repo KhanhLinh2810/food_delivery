@@ -43,10 +43,12 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 		code: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		name: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		house_number: {
 			type: String,
@@ -85,6 +87,7 @@ export const restaurantSchema = new mongoose.Schema<RestaurantDoc>(
 		phone: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		password: {
 			type: String,

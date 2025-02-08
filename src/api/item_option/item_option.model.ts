@@ -29,6 +29,7 @@ export const itemOptionSchema = new mongoose.Schema<ItemOptionDoc>(
 		name: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		price: {
 			type: Number,

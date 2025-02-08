@@ -1,11 +1,17 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+	IsEmail,
+	IsEnum,
+	IsNotEmpty,
+	IsNumberString,
+	IsString,
+} from 'class-validator';
 
 export class OwnerRequest {
 	@IsString()
 	@IsNotEmpty()
 	name!: string;
 
-	@IsString()
+	@IsNumberString()
 	@IsNotEmpty()
 	phone!: string;
 
@@ -17,7 +23,7 @@ export class OwnerRequest {
 	@IsNotEmpty()
 	fax!: string;
 
-	@IsString()
+	@IsEmail()
 	@IsNotEmpty()
 	email!: string;
 

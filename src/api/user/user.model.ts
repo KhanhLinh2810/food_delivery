@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema<UserDoc>(
 		first_name: { type: String },
 		last_name: { type: String },
 		avatar_url: { type: String },
-		citizen_id: { type: String },
+		citizen_id: { type: String, unique: true },
 		status: { type: Number, required: true, default: UserStatus.ACTIVE },
 		type: { type: Number, required: true, default: UserType.MEMBER },
 		address_default: {

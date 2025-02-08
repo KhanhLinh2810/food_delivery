@@ -1,15 +1,24 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+	IsEnum,
+	IsNotEmpty,
+	IsNumber,
+	IsOptional,
+	IsString,
+	Min,
+} from 'class-validator';
+import { ItemOptionStatus } from '../../constances/item_option.constances';
 
 export class CreateItemOptionRequest {
 	@IsString()
 	@IsNotEmpty()
 	name!: string;
 
+	@Min(0)
 	@IsNumber()
 	@IsNotEmpty()
 	price!: number;
 
-	@IsNumber()
+	@IsEnum(ItemOptionStatus)
 	@IsOptional()
 	status?: number;
 

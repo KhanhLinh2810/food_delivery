@@ -47,6 +47,7 @@ export const itemSchema = new mongoose.Schema<ItemDoc>(
 		name: {
 			type: String,
 			required: true,
+			unique: true,
 		},
 		price: {
 			type: Number,

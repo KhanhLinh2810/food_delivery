@@ -1,6 +1,6 @@
 import { Application, Router } from 'express';
 import { RestaurantRouter } from '../../api/restaurent/v1/restaurant.route';
-import { ItemOptionRouter } from '../../api/item_option/v1/item_option.route';
+import { ItemOptionRouter } from '../../api/item-option/v1/item-option.route';
 import { verifyToken } from '../../middlewares/auth.middlewares';
 
 export class OwnRestaurantRouter {

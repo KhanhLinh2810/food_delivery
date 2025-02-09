@@ -3,17 +3,17 @@ import {
 	OrderItemAttrs,
 	OrderItemDoc,
 	orderItemSchema,
-} from './order_item.model';
+} from './order-item.model';
 import { OrderPayment, OrderStatus } from '../constances/order.constances';
 
 export interface OrderAttrs {
+	user_id: mongoose.Schema.Types.ObjectId;
 	shipper_id?: mongoose.Schema.Types.ObjectId;
 	address: string;
-	user_id: mongoose.Schema.Types.ObjectId;
+	payment: number;
 	order_items: OrderItemAttrs[];
 	ship_cost: number;
-	payment: number;
-	total_amount?: number;
+	total_amount: number;
 }
 
 export interface OrderDoc extends mongoose.Document {
@@ -22,10 +22,10 @@ export interface OrderDoc extends mongoose.Document {
 	shipper_id: mongoose.Schema.Types.ObjectId;
 	status: number;
 	address: string;
+	payment: number;
 	order_items: OrderItemDoc[];
 	ship_cost: number;
 	total_amount: number;
-	payment: number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -34,6 +34,10 @@ interface OrderModel extends mongoose.Model<OrderDoc> {
 
 const orderSchema = new mongoose.Schema<OrderDoc>(
 	{
+		user_id: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+		},
 		shipper_id: {
 			type: mongoose.Schema.Types.ObjectId,
 			required: false,
@@ -46,6 +50,11 @@ const orderSchema = new mongoose.Schema<OrderDoc>(
 		address: {
 			type: String,
 			required: true,
+		},
+		payment: {
+			type: Number,
+			required: true,
+			default: OrderPayment.COD,
 		},
 		order_items: [
 			{
@@ -63,13 +72,16 @@ const orderSchema = new mongoose.Schema<OrderDoc>(
 			required: true,
 			default: 0,
 		},
-		payment: {
-			type: Number,
-			required: true,
-			default: OrderPayment.COD,
-		},
 	},
 	{
+		toJSON: {
+			transform: (doc, ret) => {
+				ret.id = ret._id;
+				delete ret._id;
+				delete ret.__v;
+				return ret;
+			},
+		},
 		timestamps: {
 			createdAt: 'created_at',
 			updatedAt: 'updated_at',

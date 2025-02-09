@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
+import { ObjectId } from 'mongoose';
 
-export interface IItemInterface {
-	ids?: mongoose.Schema.Types.ObjectId[];
+export interface IItemFilter {
+	ids?: ObjectId[];
 }

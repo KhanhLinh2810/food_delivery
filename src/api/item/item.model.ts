@@ -26,6 +26,7 @@ export interface ItemDoc extends mongoose.Document {
 	number_of_reviews: number;
 	number_of_sales: number;
 	option_groups: {
+		id: mongoose.Schema.Types.ObjectId;
 		name: string;
 		type: number;
 		item_option_ids: mongoose.Schema.Types.ObjectId[];

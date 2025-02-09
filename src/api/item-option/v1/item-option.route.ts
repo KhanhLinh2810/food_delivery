@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { ItemOptionController } from './item_option.controller';
-import { ItemOptionAttrs } from '../item_option.model';
+import { ItemOptionController } from './item-option.controller';
+import { ItemOptionAttrs } from '../item-option.model';
 import { resOk } from '../../../utilities/response.util';
 import { validateBodyRed } from '../../../middlewares/validation.middleware';
 import { CreateItemOptionRequest } from '../request/create_item_option.request';

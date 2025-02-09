@@ -1,4 +1,4 @@
-import { IItemInterface } from '../../../interface/item.interface';
+import { IItemFilter } from '../../../interface/item.interface';
 import { Item, ItemAttrs, ItemDoc } from '../item.model';
 
 async function create(data_body: ItemAttrs): Promise<ItemDoc> {
@@ -11,16 +11,16 @@ async function getOne(condition: any): Promise<ItemDoc | null> {
 	return await Item.findOne(condition);
 }
 
-async function getMany(query: object) {
+async function getMany(query: object): Promise<ItemDoc[]> {
 	return await Item.find(query);
 }
 
-async function deleteById(id: string) {
+async function deleteById(id: string): Promise<ItemDoc | null> {
 	return await Item.findByIdAndDelete(id);
 }
 
 // other function
-async function buildQuery(filter: IItemInterface) {
+function buildQuery(filter: IItemFilter): Object {
 	const query: any = {};
 	if (filter.ids) {
 		query._id = { $in: filter.ids };

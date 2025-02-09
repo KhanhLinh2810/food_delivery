@@ -22,6 +22,7 @@ export class CreateOrderRequest {
 
 	@IsNumber()
 	@IsNotEmpty()
+	@Min(0)
 	ship_cost!: number;
 
 	@IsArray()

@@ -1,6 +1,6 @@
 import { BadRequestError } from '../../../common/errors/bad-request-error';
-import { ItemOptionAttrs } from '../item_option.model';
-import { ItemOptionService } from './item_option.service';
+import { ItemOptionAttrs } from '../item-option.model';
+import { ItemOptionService } from './item-option.service';
 
 export class ItemOptionController {
 	create = async (data_body: ItemOptionAttrs) => {
